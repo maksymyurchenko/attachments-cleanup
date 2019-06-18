@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>Attachments Cleanup</title>
+    <link rel="stylesheet" data-th-href="${portal.assetUrl({'_path=style/main.css'})}">
+</head>
+<body>
+	<div data-th-each="attachment : ${attachments}">
+		<div class="attachment">
+			<span class="attachmentName" data-th-utext="${attachment.name}"></span>
+			<div class="attachmentRemoveButton" data-th-attr="data-cid=${id}, data-name=${attachment.name}"></div>
+		</div>
+	</div>
+</body>
+
+<script data-th-inline="javascript">
+    var serviceUrl = [[${serviceUrl}]];
+</script>
+<script data-th-src="${portal.assetUrl({'_path=js/jquery-3.3.1.min.js'})}"></script>
+<script>
+	$( document ).ready(function() {
+		$('.attachmentRemoveButton').on('click', function(){
+			var data = $(this).data();
+		    $.ajax({
+		        url: serviceUrl,
+		        type: 'POST',
+		        data: data,
+		        success: function(data){
+		        	console.log('good');
+		        }
+		    });
+		});
+	});
+</script>
