@@ -18,9 +18,22 @@
       ></div>
     </div>
   </div>
+  <script
+    data-th-widget-id="${widgetId}"
+    data-th-src="${portal.assetUrl({'_path=js/jquery-3.3.1.min.js'})}"
+  ></script>
   <script data-th-widget-id="${widgetId}" data-th-inline="javascript">
     var serviceUrl = [[${serviceUrl}]];
-    $(document).ready(function() {
+    function checkJqeury(){
+      if($){
+        init();
+      }
+      else {
+        console.log("waiting");
+        setTimeout(checkJqeury, 1000); // check again in a second
+      }
+    }
+    function init(){
       $(".attachmentRemoveButton").on("click", function() {
         var data = $(this).data();
         $.ajax({
@@ -32,10 +45,7 @@
           }
         });
       });
-    });
+    }
+    checkJqeury();
   </script>
-  <script
-    data-th-widget-id="${widgetId}"
-    data-th-src="${portal.assetUrl({'_path=js/jquery-3.3.1.min.js'})}"
-  ></script>
 </widget>
