@@ -14,7 +14,7 @@
       <span class="attachmentName" data-th-utext="${attachment.name}"></span>
       <div
         class="attachmentRemoveButton"
-        data-th-attr="data-cid=${id}, data-name=${attachment.name}"
+        data-th-onclick="|removeAttachment('${attachment.name}', '${id}')|"
       ></div>
     </div>
   </div>
@@ -24,28 +24,16 @@
   ></script>
   <script data-th-widget-id="${widgetId}" data-th-inline="javascript">
     var serviceUrl = [[${serviceUrl}]];
-    function checkJqeury(){
-      if($){
-        init();
-      }
-      else {
-        console.log("waiting");
-        setTimeout(checkJqeury, 1000); // check again in a second
-      }
-    }
-    function init(){
-      $(".attachmentRemoveButton").on("click", function() {
-        var data = $(this).data();
-        $.ajax({
-          url: serviceUrl,
-          type: "POST",
-          data: data,
-          success: function(data) {
-            console.log("good");
-          }
-        });
+    function removeAttachment(name, cid){
+      var data = {name: name, cid: cid};
+      $.ajax({
+        url: serviceUrl,
+        type: "POST",
+        data: data,
+        success: function(data) {
+          console.log("success");
+        }
       });
     }
-    checkJqeury();
   </script>
 </widget>
